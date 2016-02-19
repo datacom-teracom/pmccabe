@@ -1,0 +1,19 @@
+Modified McCabe Cyclomatic Complexity
+|   Traditional McCabe Cyclomatic Complexity
+|       |    # Statements in function
+|       |        |   First line of function
+|       |        |       |   # lines in function
+|       |        |       |       |  filename(definition line number):function
+|       |        |       |       |           |
+1	1	0	2	3	test015(2): Spreadsheetns::ACosFormula::ACosFormula
+3	3	3	6	5	test015(6): Spreadsheetns::ACosFormula::ACosFormula
+3	3	3	12	6	test015(12): Spreadsheetns::ACosFormula::getResult
+1	1	0	21	1	test015(21): foo::bar::bar
+1	1	0	25	1	test015(25): foo::foo1::bar::bar
+1	1	0	28	2	test015(28): foo::fff
+1	1	0	32	1	test015(32): bar::bar
+1	1	0	36	1	test015(36): anonymous_namespace::bar::bar
+12	12	8	n/a	40	Total
+   CSL PCT  NCSL PCT  TOTAL  FILENAME
+     5  12    35  88     40  test015
+     5  12    35  88     40  (total files: 1)

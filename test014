@@ -1,0 +1,7 @@
+/* test from xianjie zhang */
+void
+main(void)
+{
+if ( test(var1, class)) { /* this line causes problem */
+}
+}

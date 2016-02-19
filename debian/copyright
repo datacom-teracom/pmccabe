@@ -1,0 +1,14 @@
+This package was debianized by Paul Bame <bame@debian.org> on
+Tue, 17 Dec 2002 10:07:41 -0700.
+
+It was orignally downloaded from Hewlett-Packard internal software
+archives and is now available from http://parisc-linux.org/~bame/pmccabe/
+
+Author(s): Paul Bame <bame@debian.org>
+
+Copyright:
+
+Copyright (C) 2002 Hewlett-Packard (Paul Bame <bame@debian.org>).  This
+software is licensed under the terms of the GNU General Public License
+version 2 or later.  See the file GPL-2 in /usr/share/common-licenses
+which is part of the base-files Debian package.

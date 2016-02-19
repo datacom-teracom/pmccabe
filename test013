@@ -1,0 +1,6 @@
+int foo(a, b)
+const char *a, *b;
+{
+	a = b;
+	return a;
+}

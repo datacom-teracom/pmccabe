@@ -1,0 +1,97 @@
+#!/bin/ksh
+
+echo "@(#) $Id: pdiff,v 1.2 1998/07/21 18:53:59 bame Exp $" >&2
+
+cycocvt()
+{
+    awk 'BEGIN {OFS="\t"}{print $8 "/" $9, $1, $2, $3, $7}'
+}
+
+case $# in
+    2) olddir=$1; newdir=$2; usefind=true;;
+    4) olddir=$1; oldlist=$2; newdir=$3; newlist=$4; usefind=false;;
+    *)
+	echo "Usage: $0 old-code-directory new-code-directory" >&2
+	echo "Usage: $0 old-code-directory old-files-list new-code-directory new-files-list" >&2
+	exit 2
+	;;
+esac
+
+pmccabe -V >&2
+
+printf 'Analyzing %s ...' "$olddir" >&2
+
+if $usefind
+then
+    (cd $olddir && find . -type f -name '*.[cChH]*' -print | xargs pmccabe -C)
+else
+    (cd $olddir && cat $oldlist | xargs pmccabe -C)
+fi | cycocvt | sort >old.1
+
+printf "\nAnalyzing %s ..." "$newdir" >&2
+if $usefind
+then
+    (cd $newdir && find . -type f -name '*.[cChH]*' -print | xargs pmccabe -C)
+else
+    (cd $newdir && cat $newlist | xargs pmccabe -C)
+fi | cycocvt | sort >new.1
+
+
+echo >&2
+echo >&2
+
+{
+    echo "@@@@@ common"
+    join old.1 new.1
+    echo "@@@@@ old"
+    join -v 1 old.1 new.1
+    echo "@@@@@ new"
+    join -v 2 old.1 new.1
+} | awk '
+    BEGIN {
+	OFS = "\t"
+	print "", "Modified McCabe Cyclomatic Complexity"
+	print "", "|   Traditional McCabe Cyclomatic Complexity"
+	print "", "|       |    # Statements in function"
+	print "", "|       |        |   # lines in function"
+	print "", "+-------+--------+------+---------------file name/function name"
+    }
+    ($1 == "@@@@@") { file = $2; next }
+    (file == "common") {
+	print "", total($6 - $2, $7 - $3, $8 - $4, $9 - $5), $1
+    }
+    (file == "old") {
+	print "Deleted", total(-$2, -$3, -$4, -$5), $1
+    }
+    (file == "new") {
+	print "New", total($2, $3, $4, $5), $1
+    }
+    function total(m1, m2, statements, lines,          s)
+    {
+	tm1 += m1
+	tm2 += m2
+	tstatements += statements
+	tlines += lines
+
+	if (m1 > 0)
+	    s = s "+";
+	s = s m1 "\t";
+
+	if (m2 > 0)
+	    s = s "+";
+	s = s m2 "\t";
+
+	if (statements > 0)
+	    s = s "+";
+	s = s statements "\t";
+
+	if (lines > 0)
+	    s = s "+";
+	s = s lines "\t";
+
+	return s
+    }
+    END {
+	print "-----", total(tm1, tm2, tstatements, tlines), "Total"
+    }
+'

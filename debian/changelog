@@ -1,0 +1,67 @@
+pmccabe (2.6) unstable; urgency=low
+
+  * From Ubuntu:
+  * Fixed 364338 pdiff script change has bug
+  * Fixed 499589 infinite loop with namespaced struct variable declaration
+  * Thanks to matt_hargett for bugs and patches
+  * Fixed a problem parsing DOS-format CRLF files
+  * Updated deb stds version and fixed some lintian warnings
+
+ -- Paul Bame <bame@debian.org>  Fri, 06 Aug 2010 14:18:25 -0400
+
+pmccabe (2.5) unstable; urgency=low
+
+  * updated codechanges and pdiff to be bashism safe
+  * updated test files
+  * bump Build-Depends debhelper 3->5
+
+ -- Paul Bame <bame@debian.org>  Wed, 30 Jul 2008 15:21:28 -0600
+
+pmccabe (2.4+nmu2) unstable; urgency=medium
+
+  * Non-maintainer upload.
+  * Fix bashism in codechanges /bin/sh script (Closes: #486054)
+
+ -- Chris Lamb <chris@chris-lamb.co.uk>  Tue, 09 Sep 2008 03:36:03 +0100
+
+pmccabe (2.4+nmu1) unstable; urgency=medium
+
+  * Non-maintainer upload.
+  * Fix bashism in 'codechanges' script (Closes: #465351)
+  * Bump Standards-Version to 3.7.3.
+
+ -- Chris Lamb <chris@chris-lamb.co.uk>  Sat, 12 Apr 2008 04:59:33 +0100
+
+pmccabe (2.4) unstable; urgency=low
+
+  * add support for C++ namespaces
+
+ -- Paul Bame <bame@riverrock.org>  Mon, 13 Aug 2007 21:14:22 -0600
+
+pmccabe (2.3-1) unstable; urgency=low
+
+  * you can use "class" as an identifier in C code now.  Thanks to
+    xianjie zhang for an excellent bug report.
+
+ -- Paul Bame <bame@debian.org>  Wed, 26 Nov 2003 12:06:55 -0700
+
+pmccabe (2.2-3) unstable; urgency=low
+
+  * tweek for running under buildd and whenever pmccabe not installed
+    and . not in $PATH
+
+ -- Paul Bame <bame@debian.org>  Wed, 12 Mar 2003 14:05:33 -0700
+
+pmccabe (2.2-2) unstable; urgency=low
+
+  * Tweek debian/copyright to follow policy
+
+ -- Paul Bame <bame@debian.org>  Sun, 23 Feb 2003 13:03:18 -0700
+
+pmccabe (2.2-1) unstable; urgency=low
+
+  * Initial public release.
+  * Closes: #177749
+
+ -- Paul Bame <bame@debian.org>  Tue, 17 Dec 2002 10:07:41 -0700
+

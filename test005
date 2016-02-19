@@ -1,0 +1,103 @@
+#ifndef TYPEDVALUE_H
+#define TYPEDVALUE_H
+
+#include <Type.h>
+#include <SimpleValue.h>
+
+class TypedValue {
+	const ValueType	*_type;
+	SimpleValue	_simplevalue;
+	SimpleValue	*_valueptr;
+	unsigned int	_has_value:1;
+	unsigned int	_use_valueptr:1;
+	
+	static ValueType	_StaticIntType;
+	static ValueType	_StaticFloatType;
+	static ValueType	_StaticDateType;
+	static ValueType	_StaticBooleanType;
+	static ValueType	_StaticStringType;
+	static ValueType	_StaticTimeType;
+
+public:
+	Boolean HasValue() const {return _has_value;}
+	void HasValue(Boolean flag) {_has_value = flag;}
+	void ResetValue() {HasValue(FALSE);}
+	void ResetValuePtr() {_use_valueptr=0; ResetValue();}
+
+	const SimpleValue &Value() const {if(_use_valueptr) return (*_valueptr)
+; else return _simplevalue;}
+	SimpleValue &ValueRef() {if(_use_valueptr) return (*_valueptr); else re
+turn _simplevalue;}
+	void Value(SimpleValue &v) {_valueptr = &v; _use_valueptr=1; HasValue(T
+RUE);}
+
+	TypedValue() {_type = NULL; _has_value=0; _use_valueptr=0;}
+	TypedValue(BaseType type);
+	//TypedValue(TypedValue &);
+	TypedValue(const ValueType *t) {_type = t; _has_value=0; _use_valueptr=
+0;}
+	TypedValue(const ValueType *t, SimpleValue *v) {_type = t; Value(*v);}
+	~TypedValue();
+	void DestroyValue() {}
+	void Ref(TypedValue &);	// set typed value to point to another typed va
+lue
+
+	Boolean HasType() const {return _type!=NULL;}
+	BaseType Type() const {return _type->Type();}
+	void Type(BaseType);
+
+	void TypePtr(const ValueType *t) {_type = t;}
+	const ValueType *TypePtr() const {return _type;}
+	
+	Boolean operator=(const int v);
+	Boolean operator=(const float v);
+	Boolean operator=(const time_t v);
+	Boolean operator=(const Boolean v);
+	Boolean operator=(const char *s);
+	Boolean operator=(const TypedValue &t);
+	Boolean Assign(const char *s) {return this->operator=(s);}
+	
+	Boolean operator += (const TypedValue &t);
+	
+	boolean operator==(const TypedValue &)const;	// test equality of typ
+e *and* value
+
+	void print_type(ostream &o) const { if(_type)_type->print(o); else o <<
+ "no type";}
+	void print_value(ostream &o) const;
+
+	operator int() const;
+	operator float() const;
+	operator Boolean() const;
+	operator time_t() const;
+	operator char *() const;
+	operator Str() const;
+	
+	// when value is an array, get (and create if not created) a reference 
+to the element
+	// returns TRUE if the element was created, FALSE otherwise
+	Boolean GetElementReference(const char *, TypedValue &result);
+	
+	// when value is an array, get (but don't create) a value for the eleme
+nt
+	// returns TRUE if value is put in result, FALSE otherwise
+	Boolean GetElementValue(const char *, TypedValue &result) const;
+	
+	// return TRUE if element with given name exists in array
+	Boolean FindElement(const char *);
+	
+	// when value is an array, remove element
+	// returns TRUE if an element was removed, FALSE otherwise
+	Boolean RemoveElement(const char *);
+	
+	// return number of elements in array
+	long ArraySize() const;
+	
+	// get array indices of array value
+	// returns TRUE if indices were put in array, FALSE otherwise
+	Boolean GetIndices(StrArray &arr) const;
+
+	friend ostream &operator<<(ostream &,const TypedValue &);
+};
+
+#endif

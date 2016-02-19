@@ -1,0 +1,32 @@
+Version 2.2
+    Prepare for releasing to Open Source, includes Debianizing.
+
+Version 2.1
+    Allow non-K&R 'const' in K&R-style function definitions (yuck).
+
+Version 2.0
+    Parse destructor names properly for functions implemented
+    within their class definitions.
+
+    Support declarations of classes within functions and functions
+    within classes, recursively.
+
+    Add -f and -F options to enable per-file statistics printing.
+
+    Add -V option to get the current version number.
+
+    Add -n option to calculate non-commented source lines directly.
+    Output format compatible with 'anac'.
+
+    Count C-preprocessor lines properly with -d and -n options,
+    previously was not counting them as non-commented lines.
+
+    Keep track of # statements in a file which are outside the scope
+    of functions (e.g., variable declarations).
+
+    Parsing 'struct foo function() {return;}' and some related
+    constructs used to confuse the parser -- fixed.
+
+    Remove a bunch of dead code.
+
+    More consistent error messages.

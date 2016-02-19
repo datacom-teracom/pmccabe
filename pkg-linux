@@ -1,0 +1,8 @@
+#!/bin/ksh
+
+mkdir -p pkg pkg/usr/local/bin pkg/usr/local/man/man1
+cp -f pmccabe decomment codechanges pkg/usr/local/bin
+cp -f pmccabe.1 codechanges.1 pkg/usr/local/man/man1
+
+(cd pkg && tar cvfz ../pmccabe.tar.gz $(find . -type f -print))
+

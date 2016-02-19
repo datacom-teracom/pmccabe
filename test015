@@ -1,0 +1,40 @@
+namespace Spreadsheetns {
+    ACosFormula::ACosFormula() {
+	//empty
+    }
+
+    ACosFormula::ACosFormula(IFormula* formula) : IOneArgFormula(formula) {
+	if((formula->getResult() < -1) || (formula->getResult() > 1)) {
+	    throw DomainErrorException("acos is defined in de range [-1 , 1]");
+	}
+    }
+
+    double ACosFormula::getResult(){
+	if((fArgument->getResult() < -1) || (fArgument->getResult() > 1)) {
+	    throw DomainErrorException("acos is defined in de range [-1 , 1]");
+	}
+	return (acos(fArgument->getResult()) * 180/DEF_PI);
+    }
+}
+namespace foo {
+    class bar {
+        bar() {};
+    };
+    namespace foo1 {
+        class bar {
+	    bar() {};
+	};
+    }
+    int fff(void) {
+    }
+};
+class bar {
+    bar() {};
+};
+namespace {
+    class bar {
+	bar() {};
+    };
+}
+// Inspiration for adding namespaces and some of this test come
+// from Bart Van Rompaey

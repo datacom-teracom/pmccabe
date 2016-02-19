@@ -1,0 +1,44 @@
+Modified McCabe Cyclomatic Complexity
+|   Traditional McCabe Cyclomatic Complexity
+|       |    # Statements in function
+|       |        |   First line of function
+|       |        |       |   # lines in function
+|       |        |       |       |  filename(definition line number):function
+|       |        |       |       |           |
+1	1	1	31	1	test006/NodeArc.H(31): LabelledNode::~LabelledNode
+1	1	1	33	1	test006/NodeArc.H(33): LabelledNode::label
+1	1	1	37	1	test006/NodeArc.H(37): LabelledNode::shapeType
+1	1	1	39	1	test006/NodeArc.H(39): LabelledNode::borderWidth
+1	1	1	40	1	test006/NodeArc.H(40): LabelledNode::borderWidth
+1	1	1	42	1	test006/NodeArc.H(42): LabelledNode::xeNode
+1	1	1	43	1	test006/NodeArc.H(43): LabelledNode::xeNode
+2	2	5	107	10	test006/NodeArc.H(107): LabelledArc::arcContains
+2	2	7	118	13	test006/NodeArc.H(118): LabelledArc::labelContains
+1	1	3	134	6	test006/NodeArc.H(134): LabelledArc::getLabelOrigin
+2	2	5	141	10	test006/NodeArc.H(141): LabelledArc::arrowPoints
+1	1	6	152	9	test006/NodeArc.H(152): LabelledArc::arrowBoundingBox
+4	4	9	162	12	test006/NodeArc.H(162): LabelledArc::arcBoundingBox
+2	2	5	179	9	test006/NodeArc.H(179): LabelledArc::drawArrow
+1	1	1	200	1	test006/NodeArc.H(200): LabelledArc::owner
+1	1	1	202	1	test006/NodeArc.H(202): LabelledArc::getLabel
+1	1	1	205	1	test006/NodeArc.H(205): LabelledArc::getLabelColor
+1	1	1	208	1	test006/NodeArc.H(208): LabelledArc::getLabelVisible
+1	1	3	234	1	test006/NodeArc.H(234): SiblingList::SiblingList
+1	1	1	235	1	test006/NodeArc.H(235): SiblingList::~SiblingList
+1	1	1	237	1	test006/NodeArc.H(237): SiblingList::count
+1	1	1	238	1	test006/NodeArc.H(238): SiblingList::max
+3	3	8	244	11	test006/NodeArc.H(244): SiblingList::isSibling
+5	5	18	279	28	test006/NodeArc.H(279): RankedArc::arrowPoints
+2	2	2	308	3	test006/NodeArc.H(308): RankedArc::computeRank
+2	2	2	312	1	test006/NodeArc.H(312): RankedArc::selfish
+8	8	28	314	52	test006/NodeArc.H(314): RankedArc::arcContains
+4	4	9	369	15	test006/NodeArc.H(369): RankedArc::getLabelOrigin
+6	6	27	385	40	test006/NodeArc.H(385): RankedArc::arcBoundingBox
+3	3	8	426	14	test006/NodeArc.H(426): RankedArc::drawArc
+10	10	27	441	43	test006/NodeArc.H(441): RankedArc::drawRankedArc
+6	6	21	485	36	test006/NodeArc.H(485): RankedArc::drawArrow
+2	2	3	526	7	test006/NodeArc.H(526): RankedArc::~RankedArc
+80	80	223	n/a	539	Total
+   CSL PCT  NCSL PCT  TOTAL  FILENAME
+    99  18   440  82    539  test006/NodeArc.H
+    99  18   440  82    539  (total files: 1)

@@ -1,0 +1,203 @@
+<head>
+<title>HP-UX 9.03 manual page entry for pmccabe</title>
+</head>
+<body>
+<pre>
+
+
+ <b><a href="/cgi-bin/man?1+pmccabe">pmccabe(1)</a></b>                                                       <b><a href="/cgi-bin/man?1+pmccabe">pmccabe(1)</a></b>
+                                   <b>HP-GJD</b>
+
+
+
+ <b>NAME</b>
+      pmccabe - calculate McCabe cyclomatic complexity for C and C++
+      programs
+
+ <b>SYNOPSIS</b>
+      <b>pmccabe</b> <b>[-vdCbtT?]</b> <b>[file(s)]</b>
+
+
+ <b>DESCRIPTION</b>
+      <em>pmccabe</em> processes the named files, or standard input if none are
+      named, calculating statistics including McCabe cyclomatic complexity
+      for each function found.  The files are expected to be either C (ANSI
+      or K&amp;R) or C++.
+
+
+      <b>-?</b>   Print an informative usage message.
+
+      <b>-v</b>   Print column headers
+
+      <b>-d</b>   Intended to help count non-commented source lines via something
+           like:
+
+           pmccabe -d *.c | grep -v '^[&lt;blank&gt;&lt;tab&gt;]*$' | wc -l
+
+           Comments and cpp directives are removed, string literals are
+           replaced by <b>STRINGLITERAL</b>, character constants are replaced by
+           <b>CHARLITERAL</b>.  The resulting source code is much easier to parse.
+           This is the first step performed by <em>pmccabe</em> so that its parser
+           can be simpler.
+
+      <b>-C</b>   Custom output format - don't use it.
+
+      <b>-b</b>   Output format compatible with <em>softbuild</em>.  Numerical sorting on
+           this format is possible using:
+
+           sort -n +1 -t%
+
+      <b>-t</b>   Print column totals.  Note the total number of lines is *NOT* the
+           number of non-commented source lines - in fact it may not be very
+           useful at all.
+
+      <b>-T</b>   Print column totals *ONLY*.
+
+
+    <b>Parsing</b>
+      <em>pmccabe</em> ignores all <em>cpp</em> preprocessor directives - calculating the
+      complexity of the appearance of the code rather than the complexity
+      after the preprocessor mangles the code.  This is especially important
+      since simple things like <em>getchar</em>(3) expand into macros which increase
+      complexity.
+
+
+
+
+                                    - 1 -          Formatted:  June 29, 1998
+
+
+
+
+
+
+ <b><a href="/cgi-bin/man?1+pmccabe">pmccabe(1)</a></b>                                                       <b><a href="/cgi-bin/man?1+pmccabe">pmccabe(1)</a></b>
+                                   <b>HP-GJD</b>
+
+
+
+    <b>Output</b> <b>Format</b>
+      A line is written to standard output for each function found of the
+      form:
+
+
+           5       6       11      34      27      gettoken.c(35): matchparen
+
+      Column 1 contains cyclomatic complexity calculated by adding 1 (for
+      the function) to the occurences of <b>for</b>, <b>if</b>, <b>while</b>, <b>switch</b>, <b>&amp;&amp;</b>, <b>||</b>, and
+      <b>?</b>.  Unlike "normal" McCabe cyclomatic complexity, each case in a
+      switch statement is not counted as additional complexity.  This
+      treatment of switch statements and complexity may be more useful than
+      the "normal" measure for judging maintenance effort and code
+      difficulty.
+
+      Column 2 is the cyclomatic complexity calculated in the "usual" way
+      with regard to switch statements.  Specifically it is calculated as in
+      column 1 but counting each <b>case</b> rather than the <b>switch</b> and may be more
+      useful than column 1 for judging testing effort.
+
+      Column 3 contains a statement count.  It is calculated by adding each
+      occurence of <b>for</b>,<b>if</b>,<b>while</b>, <b>switch</b>, and semicolon within the function.
+      One possible surprise is that <b>for</b> statements have a minimum statement
+      count of 3.  This is realistic since <b>for(A;</b> <b>B;</b> <b>C){...}</b> is really
+      shorthand for
+
+        A;
+        while (B)
+        {
+          ...
+          C;
+        }
+
+      Column 4 contains the first line number in the function.  This is not
+      necessarily the same line on which the function name appears.
+
+      Column 5 is the number of lines of the function, from the number in
+      column 4 through the line containing the closing curly brace.
+
+      The final column contains the file name, line number on which the
+      function name occurs, and the name of the function.
+
+ <b>APPLICATIONS</b>
+      The obvious application of <em>pmccabe</em> is illustrated by the following
+      which gives a list of the "top ten" most complex functions:
+
+
+           pmccabe *.c | sort -nr | head -10
+
+      Many files contain more than one C function and sometimes it would be
+      useful to extract each function separately.  <b>matchparen()</b> (see example
+
+
+
+                                    - 2 -          Formatted:  June 29, 1998
+
+
+
+
+
+
+ <b><a href="/cgi-bin/man?1+pmccabe">pmccabe(1)</a></b>                                                       <b><a href="/cgi-bin/man?1+pmccabe">pmccabe(1)</a></b>
+                                   <b>HP-GJD</b>
+
+
+
+      output above) can be extracted from gettoken.c by extracting 27 lines
+      starting with line 34.  This can form the basis of tools which operate
+      on functions instead of files (e.g., use as a front-end for <em><a href="/cgi-bin/man?1+diff">diff</em>(1)</a>).
+
+ <b>DIAGNOSTICS</b>
+      <em>pmccabe</em> returns a nonzero exit status if any errors occur during
+      parsing.
+
+      Error messages to standard error, usually explaining that the parser
+      is confused about something, mimic normal C compiler error messages.
+
+ <b>WARNINGS</b>
+      <em>pmccabe</em> is confused by unmatched curly braces or parentheses which
+      sometimes occur with hasty use of <em>cpp</em> directives.  In these cases a
+      diagnostic is printed and the complexity results for the files named
+      may be unreliable.  Most times the "#ifdef" directives may be modified
+      such that the curly braces match.  Note that if <em>pmccabe</em> is confused by
+      a <em>cpp</em> directive, most pretty printers will be too.  In some cases,
+      preprocessing with <em><a href="/cgi-bin/man?1+unifdef">unifdef</em>(1)</a> may be appropriate.
+
+      Treatment of <b>?</b>  for statement counting could perhaps be improved.
+
+      Statement counting could arguably be improved by: counting occurences
+      of the comma operator, multiple assignments, assignments within
+      conditional tests, and logical conjunction.
+
+      Destructors implemented within class definitions have no '~' in their
+      name.
+
+
+ <b>AUTHOR</b>
+      Paul Bame
+
+
+ <b>SEE</b> <b>ALSO</b>
+      <em><a href="/cgi-bin/man?1+sort">sort</em>(1)</a>, <em><a href="/cgi-bin/man?1+diff">diff</em>(1)</a>, <em>softbuild</em>(1), <em><a href="/cgi-bin/man?1+wc">wc</em>(1)</a>, <em><a href="/cgi-bin/man?1+grep">grep</em>(1)</a>, <em><a href="/cgi-bin/man?1+unifdef">unifdef</em>(1)</a>, <em><a href="/cgi-bin/man?1+head">head</em>(1)</a>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                                    - 3 -          Formatted:  June 29, 1998
+
+
+
+</pre><h2><a href="/cgi-bin/man">Return to search page</a></h2></body>

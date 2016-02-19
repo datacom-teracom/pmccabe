@@ -1,0 +1,14 @@
+Modified McCabe Cyclomatic Complexity
+|   Traditional McCabe Cyclomatic Complexity
+|       |    # Statements in function
+|       |        |   First line of function
+|       |        |       |   # lines in function
+|       |        |       |       |  filename(definition line number):function
+|       |        |       |       |           |
+1	1	3	16	11	test006/Grapher.H(16): Grapher::Grapher
+1	1	0	27	1	test006/Grapher.H(27): Grapher::~Grapher
+1	1	1	29	1	test006/Grapher.H(29): Grapher::xegraph
+3	3	5	n/a	32	Total
+   CSL PCT  NCSL PCT  TOTAL  FILENAME
+    11  34    21  66     32  test006/Grapher.H
+    11  34    21  66     32  (total files: 1)

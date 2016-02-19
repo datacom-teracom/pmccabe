@@ -1,0 +1,89 @@
+Modified McCabe Cyclomatic Complexity
+|   Traditional McCabe Cyclomatic Complexity
+|       |    # Statements in function
+|       |        |   First line of function
+|       |        |       |   # lines in function
+|       |        |       |       |  filename(definition line number):function
+|       |        |       |       |           |
+2	2	3	68	8	test006/Handler.H(68): ActionHandler::returnControl
+1	1	3	77	4	test006/Handler.H(77): ActionHandler::ActionHandler
+1	1	1	83	1	test006/Handler.H(83): ActionHandler::target
+1	1	1	84	1	test006/Handler.H(84): ActionHandler::target
+2	2	2	85	1	test006/Handler.H(85): ActionHandler::targetted
+1	1	2	89	4	test006/Handler.H(89): ActionHandler::init
+1	1	3	94	6	test006/Handler.H(94): ActionHandler::takeCharge
+1	1	2	101	4	test006/Handler.H(101): ActionHandler::abort
+1	1	1	117	4	test006/Handler.H(117): MotionHandler::initializeData
+1	1	1	122	4	test006/Handler.H(122): MotionHandler::updateData
+1	1	3	127	5	test006/Handler.H(127): MotionHandler::startMotion
+1	1	4	132	6	test006/Handler.H(132): MotionHandler::updateMotion
+1	1	4	138	6	test006/Handler.H(138): MotionHandler::endMotion
+1	1	0	145	1	test006/Handler.H(145): MotionHandler::drawGhost
+1	1	0	146	1	test006/Handler.H(146): MotionHandler::doIt
+1	1	1	148	4	test006/Handler.H(148): MotionHandler::MotionHandler
+1	1	1	155	1	test006/Handler.H(155): MotionHandler::isInitialEvent
+1	1	1	156	1	test006/Handler.H(156): MotionHandler::isOkInitialTarget
+1	1	1	157	1	test006/Handler.H(157): MotionHandler::isOkFinalTarget
+1	1	3	174	6	test006/Handler.H(174): ArcHandler::indicateInitialTarget
+1	1	1	180	4	test006/Handler.H(180): ArcHandler::indicateNoTarget
+1	1	1	184	4	test006/Handler.H(184): ArcHandler::indicateFinalTarget
+1	1	1	188	3	test006/Handler.H(188): ArcHandler::indicatePreviousCursor
+4	4	6	192	15	test006/Handler.H(192): ArcHandler::drawGhost
+1	1	1	208	4	test006/Handler.H(208): ArcHandler::isInitialEvent
+2	2	2	213	4	test006/Handler.H(213): ArcHandler::isOkInitialTarget
+2	2	2	217	4	test006/Handler.H(217): ArcHandler::isOkFinalTarget
+1	1	2	227	5	test006/Handler.H(227): ArcHandler::ArcHandler
+1	1	1	232	4	test006/Handler.H(232): ArcHandler::~ArcHandler
+1	1	6	250	10	test006/Handler.H(250): ArcMaker::initializeData
+2	2	6	260	10	test006/Handler.H(260): ArcMaker::startMotion
+10	10	23	271	37	test006/Handler.H(271): ArcMaker::updateMotion
+4	4	6	309	11	test006/Handler.H(309): ArcMaker::endMotion
+1	1	4	321	10	test006/Handler.H(321): ArcMaker::doIt
+2	2	1	332	4	test006/Handler.H(332): ArcMaker::isOkInitialTarget
+1	1	1	336	4	test006/Handler.H(336): ArcMaker::isOkFinalTarget
+1	1	1	342	4	test006/Handler.H(342): ArcMaker::ArcMaker
+2	2	1	356	4	test006/Handler.H(356): ArcChanger::isOkInitialTarget
+2	2	1	360	4	test006/Handler.H(360): ArcChanger::isOkFinalTarget
+1	1	8	365	12	test006/Handler.H(365): ArcChanger::initializeData
+2	2	6	378	12	test006/Handler.H(378): ArcChanger::startMotion
+6	6	18	391	30	test006/Handler.H(391): ArcChanger::updateMotion
+3	3	6	422	11	test006/Handler.H(422): ArcChanger::endMotion
+1	1	1	436	4	test006/Handler.H(436): ArcChanger::ArcChanger
+2	2	2	451	8	test006/Handler.H(451): NodeMaker::drawGhost
+1	1	1	459	4	test006/Handler.H(459): NodeMaker::isInitialEvent
+2	2	2	464	4	test006/Handler.H(464): NodeMaker::isOkInitialTarget
+1	1	2	469	5	test006/Handler.H(469): NodeMaker::initializeData
+1	1	2	474	5	test006/Handler.H(474): NodeMaker::updateData
+1	1	1	482	4	test006/Handler.H(482): NodeMaker::NodeMaker
+1	1	1	515	3	test006/Handler.H(515): Selector::deselect
+2	2	6	519	10	test006/Handler.H(519): Selector::updateData
+2	2	1	530	5	test006/Handler.H(530): Selector::isInitialEvent
+1	1	1	536	5	test006/Handler.H(536): Selector::isOkInitialTarget
+1	1	4	543	7	test006/Handler.H(543): Selector::Selector
+1	1	3	570	10	test006/Handler.H(570): SweepSelector::updateData
+2	2	7	581	13	test006/Handler.H(581): SweepSelector::startMotion
+2	2	5	595	7	test006/Handler.H(595): SweepSelector::updateMotion
+2	2	7	603	10	test006/Handler.H(603): SweepSelector::endMotion
+2	2	2	616	8	test006/Handler.H(616): SweepSelector::drawGhost
+1	1	1	625	4	test006/Handler.H(625): SweepSelector::isInitialEvent
+1	1	1	630	4	test006/Handler.H(630): SweepSelector::isOkInitialTarget
+1	1	1	636	4	test006/Handler.H(636): SweepSelector::SweepSelector
+1	1	1	658	4	test006/Handler.H(658): SubgraphSelector::isInitialEvent
+2	2	1	663	4	test006/Handler.H(663): SubgraphSelector::isOkInitialTarget
+1	1	1	669	4	test006/Handler.H(669): SubgraphSelector::SubgraphSelector
+1	1	0	681	1	test006/Handler.H(681): ItemMover::startMove
+1	1	0	682	1	test006/Handler.H(682): ItemMover::updateMove
+1	1	0	683	1	test006/Handler.H(683): ItemMover::endMove
+2	2	1	685	3	test006/Handler.H(685): ItemMover::isOkInitialTarget
+1	1	1	689	4	test006/Handler.H(689): ItemMover::ItemMover
+1	1	4	706	6	test006/Handler.H(706): NodeMover::startMove
+2	2	8	712	11	test006/Handler.H(712): NodeMover::updateMove
+1	1	1	723	3	test006/Handler.H(723): NodeMover::endMove
+1	1	1	728	4	test006/Handler.H(728): NodeMover::NodeMover
+3	3	1	740	4	test006/Handler.H(740): SelectionMover::isOkInitialTarget
+1	1	1	746	4	test006/Handler.H(746): SelectionMover::SelectionMover
+1	1	1	758	4	test006/Handler.H(758): MenuHandler::MenuHandler
+122	122	246	n/a	770	Total
+   CSL PCT  NCSL PCT  TOTAL  FILENAME
+   151  20   619  80    770  test006/Handler.H
+   151  20   619  80    770  (total files: 1)

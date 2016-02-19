@@ -1,0 +1,23 @@
+
+extern int bar(int);
+
+void
+function1()
+{
+    class class1
+    {
+	int amember(int i)
+	{
+	    class class2
+	    {
+		int bmember(){return 1;};
+	    }
+	    for (i = 0; i < 100; i++)
+		bar(i);
+	    return i;
+	};
+    };
+
+    class1 xx;
+    xx.amember(100);
+}

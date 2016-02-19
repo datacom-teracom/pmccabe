@@ -1,0 +1,37 @@
+
+start()
+{
+}
+
+
+storage_class
+type
+some_class
+::
+~
+some_class (){}
+
+destructor :: ~ destructor (int a) {}
+destructor2::~ destructor (int a) {}
+
+int main(int argc, char *argv[]): ident(args), ident(args) {
+	body1;
+	body2;
+}
+
+xyzzy :: operator () (int a, int b) {}
+
+class named_class
+{
+    private:
+	int member_function(){};
+};
+
+class /* unnamed_class */
+{
+    int member_function(){};
+}
+
+xyzzy :: operator
++= (int a, int b) {
+}

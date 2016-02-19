@@ -1,0 +1,252 @@
+.TH "pmccabe" 1 12Feb2003 HP
+.SH NAME
+pmccabe \- calculate McCabe cyclomatic complexity or non-commented line counts for C and C++ programs
+.SH SYNOPSIS
+.B pmccabe [-bCdfFntTvV?] [file(s)]
+
+.SH DESCRIPTION
+.I pmccabe
+processes the named files, or standard input if none are named.
+In default mode it
+calculates statistics including
+McCabe cyclomatic complexity for each function.
+The files are expected to be either C (ANSI or K&R) or C++.
+.TP
+.B -?
+Print an informative usage message.
+.TP
+.B -v
+Print column headers
+.TP
+.B -V
+Print
+.I pmccabe
+version number
+
+.SS De-commenting mode
+.TP
+.B -d
+Intended to help count non-commented source lines via something like:
+.IP
+\fCpmccabe -d *.c | grep -v '^[<blank><tab>]*$' | wc -l\fR
+
+Comments are removed,
+.I cpp
+directives are replaced by \fBcpp\fR,
+string literals are replaced by \fBSTRINGLITERAL\fR,
+character constants are replaced by \fBCHARLITERAL\fR.
+The resulting source code is much easier to parse.
+This is the first step performed by
+.I pmccabe
+so that its parser can be simpler.
+.P
+None of the other options work sensibly with
+.BR -d .
+
+.SS Line-counting mode
+.TP
+.B -n
+Counts non-commented source lines.
+The output format is identical to that of the
+.I anac
+program except that column headers and totals must be requested
+if desired.
+If you want column headers add
+.BR -v .
+If you want totals add
+.BR -t .
+If all you want is totals add
+.BR -T .
+
+.SS Complexity mode (default)
+.TP
+.B -C
+Custom output format - don't use it.
+.TP
+.B -c
+Report non-commented, non-blank lines per function (and file)
+instead of the raw number of lines.
+.B "Note that pre-processor directives are NOT counted."
+.TP
+.B -b
+Output format compatible with
+compiler error browsing tools
+which understand "classic" compiler errors.
+Numerical sorting on this format is possible using:
+.IP ""
+\fCsort -n +1 -t%\fR
+.TP
+.B -t
+Print column totals.
+Note the total number of lines is *NOT* the number of 
+non-commented source lines - it's the same as would be reported by
+\fC"wc -l"\fR.
+.TP
+.B -T
+Print column totals *ONLY*.
+.TP
+.B -f
+Include per-file totals along with the per-function totals.
+.TP
+.B -F
+Print per-file totals but NOT per-function totals.
+
+.SS Parsing
+.I pmccabe
+ignores all 
+.I cpp
+preprocessor directives - calculating the complexity of the appearance
+of the code rather than the complexity after the preprocessor
+mangles the code.
+This is especially important since simple things like
+.I getchar(3)
+expand into macros which increase complexity.
+
+.SS "Output Format"
+A line is written to standard output for each function found
+of the form:
+.IP
+.nf
+\fCModified McCabe Cyclomatic Complexity
+|   Traditional McCabe Cyclomatic Complexity
+|       |    # Statements in function
+|       |        |   First line of function
+|       |        |       |   # lines in function
+|       |        |       |       |  filename(definition line number):function
+|       |        |       |       |           |
+5       6       11      34      27      gettoken.c(35): matchparen\fR
+.fi
+.PP
+Column 1 contains cyclomatic complexity
+calculated by adding 1 (for the function) to the occurences of
+.BR for ,
+.BR if ,
+.BR while ,
+.BR switch ,
+.BR && ,
+.BR || ,
+and
+.BR ? .
+Unlike "normal" McCabe cyclomatic complexity,
+each case in a switch statement is not
+counted as additional complexity.
+This treatment of switch statements and complexity may be
+more useful than the "normal" measure for judging maintenance effort
+and code difficulty.
+
+Column 2 is the cyclomatic complexity calculated in the "usual" way
+with regard to switch statements.
+Specifically it is calculated as in column 1 but counting each
+.BR case
+rather than the
+.BR switch
+and may be more useful than column 1 for judging testing effort.
+
+Column 3 contains a statement count.
+It is calculated by adding each occurence of
+.BR for , " if" , " while" ,
+.BR switch ,
+.BR ? ,
+and semicolon within the function.
+One possible surprise is that
+.BR for
+statements have a minimum statement count of 3.
+This is realistic since
+.BR "for(A; B; C){...}"
+is really shorthand for 
+.BR "A; while (B) { ...  C;}" .
+The number of statements within a file is the sum of the number
+of statements for each function implemented
+within that file, plus one for each of those functions (because
+functions are statements too),
+plus one for each other file-scoped statement (usually declarations).
+
+Column 4 contains the first line number in
+the function.  This is not necessarily the same line on which
+the function name appears.
+
+Column 5 is the number of lines of the function, from
+the number in column 4 through the line containing the
+closing curly brace.
+
+The final column contains the file name, line number on which
+the function name occurs,
+and the name of the function.
+.SH APPLICATIONS
+The obvious application of \fIpmccabe\fR is illustrated by the
+following which gives a list of the "top ten" most complex functions:
+.IP
+.nf
+\fCpmccabe *.c | sort -nr | head -10\fR
+.fi
+.PP
+Many files contain more than one C function and sometimes it would
+be useful to extract each function separately.
+\fBmatchparen()\fR (see example output above)
+can be extracted from gettoken.c
+by extracting 27 lines starting with line 34.
+This can form the basis of tools which operate on functions
+instead of files (e.g., use as a front-end for \fIdiff(1)\fR).
+.SH DIAGNOSTICS
+.I pmccabe
+returns a nonzero exit status if files could not be opened
+and upon encountering some parsing errors.
+
+Error messages to standard error,
+usually explaining that the parser is confused about something,
+mimic classic C compiler error messages.
+.SH WARNINGS
+.I pmccabe
+is confused by unmatched curly braces or parentheses
+which sometimes
+occur with hasty use of
+.I cpp
+directives.
+In these cases a diagnostic is printed and the complexity
+results for the
+files named may be unreliable.
+Most times the "#ifdef" directives may be modified such that
+the curly braces match.
+Note that if
+.I pmccabe
+is confused by a
+.I cpp
+directive, most pretty printers will be too.
+In some cases,
+preprocessing with
+.IR unifdef (1)
+may be appropriate.
+
+Statement counting could arguably be improved by:
+counting occurences of the comma operator,
+multiple assignments,
+assignments within conditional tests,
+and logical conjunction.
+However since there is no crisp statement definition from the language or
+from people I've queried, statement counting will probably not be
+improved.  If you have a crisp definition I'll be happy to consider it.
+
+Templates cause
+.IR pmccabe 's
+scanner to exit.
+
+It's a shame that
+.I ctags
+output isn't provided.
+
+.SH AUTHOR
+Paul Bame
+
+.SH "SEE ALSO"
+.IR codechanges (1),
+.IR decomment (1),
+.IR vifn (1),
+.IR sort (1),
+.IR diff (1),
+.IR wc (1),
+.IR grep (1),
+.IR unifdef (1),
+.IR head (1),
+.IR anac (1)
+
+http://parisc-linux.org/~bame/pmccabe/

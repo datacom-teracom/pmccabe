@@ -1,0 +1,38 @@
+.TH "vifn" 1 12Feb2003 HP
+.SH NAME
+vifn \- edit by function name rather than file name, uses vi
+.SH SYNOPSIS
+.B vifn [filename/]function-name [...]
+
+.SH DESCRIPTION
+.I vifn
+is a crude script which uses output from
+.IR pmccabe (1)
+to allow editing by function name rather than file name.
+When duplicate function names exist in more than one file,
+.I vifn
+cycles through each one.
+Use 
+.B filename/
+when multiple files contain identically-named functions and you know
+the one you want.
+.SH BUGS
+.I vifn
+uses the file "\fCpmccabe.out\fR" in the current directory, or
+creates it if not found by running
+.I pmccabe
+on files in the current directory.
+Maybe this isn't really a bug, but it could be better.
+.P
+.I vifn
+does not use the \fC$EDITOR\fR environment variable only because
+there are editors which misunderstand
+.IR vi 's
+.B +line
+convention for starting the editor positioned at a specific line.
+
+.SH AUTHOR
+Paul Bame
+
+.SH "SEE ALSO"
+.IR pmccabe (1)

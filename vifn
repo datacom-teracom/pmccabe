@@ -1,0 +1,35 @@
+#!/bin/sh
+
+if [ $# = 0 ]
+then
+    echo "Usage: `basename $0` [filename/]functionname [...]" >&2
+    exit 2
+fi
+
+exec 3<&0
+
+while [ $# != 0 ]
+do
+    fname=`dirname "$1"`
+    fn=`basename "$1"`
+
+    if [ $fname = "." ]
+    then
+	if [ ! -f pmccabe.out ]
+	then
+	    pmccabe *.[Cc] >pmccabe.out
+	fi
+
+	grep ": $fn$" pmccabe.out
+
+    else
+	pmccabe $fname | grep ": $fn"
+    fi |
+	sed 's/[()]/ /g' |
+	while read c1 c2 statements l1 nl filename linenumber fnname
+	do
+	    vi +$linenumber $filename <&3
+	done
+
+    shift
+done

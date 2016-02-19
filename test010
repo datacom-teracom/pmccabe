@@ -1,0 +1,7 @@
+# define foo a \
+	multi \
+	line \
+	cpp \
+	directive
+
+int a = 1;

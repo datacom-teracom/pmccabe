@@ -1,0 +1,12 @@
+class Foo {
+public:
+  const struct XXX::XXX_Local_config *Get(void); /* this line caused an infinite loop looking for '{' */
+
+  Foo() : configuration(NULL) {}
+
+private:
+  struct XXX::XXX_Local_config* configuration; /* this line caused an infinite loop looking for '{' */
+
+  void after_potential_parsing_hang() { return; }
+};
+

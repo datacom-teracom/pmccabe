@@ -1,0 +1,20 @@
+Modified McCabe Cyclomatic Complexity
+|   Traditional McCabe Cyclomatic Complexity
+|       |    # Statements in function
+|       |        |   First line of function
+|       |        |       |   # lines in function
+|       |        |       |       |  filename(definition line number):function
+|       |        |       |       |           |
+1	1	0	2	3	test001(2): start
+1	1	0	7	6	test001(12): some_class::~some_class
+1	1	0	14	1	test001(14): destructor::~destructor
+1	1	0	15	1	test001(15): destructor2::~destructor
+1	1	4	17	4	test001(17): main
+1	1	0	22	1	test001(22): xyzzy::operator()
+1	1	0	27	1	test001(27): named_class::member_function
+1	1	0	32	1	test001(32): unnamed::member_function
+1	1	0	35	3	test001(36): xyzzy::operator+=
+9	9	12	n/a	37	Total
+   CSL PCT  NCSL PCT  TOTAL  FILENAME
+     9  24    28  76     37  test001
+     9  24    28  76     37  (total files: 1)

@@ -1,0 +1,241 @@
+#!/bin/sh -f
+
+# $Header: /gjd/tools/pmccabe/codechanges 1.12 2001/10/25 23:51:46 bame Exp $
+
+# Find a "good", e.g., "new" (circa 1988?), awk
+goodawk()
+{
+    for AWK in gawk nawk awk
+    do
+	$AWK -v foo=bar 'function f() { print 1 }' >/dev/null 2>&1 && return
+    done
+
+    echo "I can't find a new enough 'awk' (tried gawk, nawk and awk) in" >&2
+    echo "your \$PATH to run this program -- sorry." >&2
+    exit 5
+}
+
+
+FIND()
+{
+    (
+    cd $1 &&
+	find . -type f -a		\
+	    \(				\
+		-name *.[cC]		\
+		-o -name *.[hH]		\
+		-o -name *.*sh		\
+		-o -name *.mak		\
+		-o -name *akefile	\
+		-o -name *.cpp		\
+		-o -name *.cxx		\
+		-o -name *.C		\
+		-o -name *.cc		\
+		-o -name *.hh		\
+	    \) -print | sort
+    )
+}
+
+parsediff()
+{
+    $AWK -v dir1="$1" -v dir2="$2" '
+	# Skip noise lines
+	BEGIN {
+	    printf("%s\t%s\t%s\tOld File, New File\n", "NEW", "DELETED", "CHANGED");
+	}
+	(/^>/) { next }
+	(/^</) { next }
+	($1 == "---") { next }
+	function wc(fname,   nlines) {
+	    nlines = 0;
+	    while (getline < fname > 0)
+	    {
+		nlines++
+	    }
+
+	    return nlines
+	}
+	($1 == "Add") {
+	    #print "DEBUG: adding", lines, "lines from", fname
+	    eof()
+	    file1 = "NEWFILE"
+	    file2 = $2
+	    addtotal += $3;
+	    eof()
+	    next
+	}
+	($1 == "Delete") {
+	    #print "DEBUG: deleting", lines, "lines from", fname
+	    eof()
+	    file2 = "DELETED"
+	    file1 = $2
+	    deltotal += $3;
+	    eof()
+	    next
+	}
+	function eof() {
+	    if (file1 != "" && (addtotal > 0 || deltotal > 0 || chgtotal > 0))
+	    {
+		printf("%d\t%d\t%d\t%s %s\n",
+			addtotal, deltotal, chgtotal, file1, file2);
+		taddtotal += addtotal;
+		tdeltotal += deltotal;
+		tchgtotal += chgtotal;
+	    }
+	    file1 = ""
+
+	    addtotal = 0;
+	    deltotal = 0;
+	    chgtotal = 0;
+	}
+	($1 == "diff") {
+	    #print "DEBUG: ", $0
+	    eof();
+	    file1 = $(NF - 1)
+	    file2 = $(NF)
+	    next
+	}
+	(/c/) {
+	    n=split($0,tmparray,"c");
+	    # do left side of c and then right
+	    leftchg = parse(tmparray[1]) + 0;
+	    rightchg = parse(tmparray[n])+ 0;
+	    if(leftchg == rightchg) {
+		    change = leftchg;
+	    }
+	    # assume that smaller side is change and the difference is add or delete
+	    else if(leftchg > rightchg) {
+	    #print "DEBUG=", leftchg, rightchg
+		    change = rightchg ;
+		    deltotal += (leftchg - rightchg)
+		    #print "deleted via change " leftchg - rightchg
+	    }
+	    else if(leftchg < rightchg) {
+		    change =  leftchg
+		    addtotal += (rightchg-leftchg)
+	    #print "DEBUG<", leftchg, rightchg
+		    #print "added via change " rightchg - leftchg
+	    };
+	    # print "change ", change, "left changed ", \
+		#leftchg , "right changed ", rightchg, "INPUT= ", m, $0;
+	    chgtotal += change;
+	    next
+	}
+	# parse if comma separated or return value if no comma
+	function parse(str, localval, localarray,localcount) {
+		localcount=split(str, localarray, ",")
+		if(localcount == 1)
+			localval = 1;
+			
+		else
+			localval = (localarray[localcount]+0 - \
+				localarray[localcount-1] +1)
+		#print "DEBUG return value", localval, str
+		return(localval);
+	}
+	(/d/) {
+	    n=split($0,tmparray,"d");
+	    #uses line range before the d
+	    deleted =  parse(tmparray[1]);
+	    deltotal += deleted;
+	    #print "deleted " deleted, "DEBUG", $0;
+	    next
+	}
+	(/a/) {
+	    # print "DEBUG:", file1, file2, $0
+	    n=split($0,tmparray,"a");
+	    # uses line range after the a
+	    added = parse(tmparray[n]);
+	    addtotal += added;
+	    #print "added ", added , "DEBUG", m, $0;
+	    next
+	}
+	{ print "?????????", $0 }
+	END {
+		eof();
+		printf("%d\t%d\t%d\tTOTAL\n",
+			taddtotal, tdeltotal, tchgtotal);
+	}
+    '
+}
+
+# Need to pick up 'decomment'
+PATH=$PATH:$(dirname $0)
+goodawk
+
+if [ X$1 = X-n ]
+then
+    DECOMMENT=cat
+    shift 1
+else
+    DECOMMENT=decomment
+fi
+
+if [ $# != 2 ]
+then
+    cat >&2 <<!!!
+\$Header: /gjd/tools/pmccabe/codechanges 1.12 2001/10/25 23:51:46 bame Exp $
+Usage:	$0 [-n] old-directory new-directory
+	$0 [-n] old-file new-file
+	    -n  don't bother to de-comment the files first
+
+    BUG:  doesn't handle re-named files/directories
+
+!!!
+    exit 2
+fi
+
+
+TMPDIR=$(mktemp -d)
+#TMPDIR=/tmp/ddiff
+
+mkdir -p $TMPDIR
+
+if [ -f $1 -o -f $2 ]
+then
+    {
+	echo "diff $1 $2"
+	$DECOMMENT $1 > $TMPDIR/A
+	$DECOMMENT $2 > $TMPDIR/B
+	$DECOMMENT $dir2/$fname | diff -bw -- $TMPDIR/A $TMPDIR/B
+    } | parsediff
+    rm -fr $TMPDIR
+    exit
+fi
+
+dir1=$1
+dir2=$2
+
+printf '%s' "$dir1 ..." >&2
+FIND $dir1 > $TMPDIR/A
+
+printf '\n%s' "$dir2 ..." >&2
+FIND $dir2 > $TMPDIR/B
+
+echo >&2
+
+comm $TMPDIR/A $TMPDIR/B |
+    while IFS="" read f
+    do
+	set -- $f
+	fname=$1
+	case $f in
+	    "		"*)
+		echo "diff $dir1/$fname $dir2/$fname"
+		$DECOMMENT $dir1/$fname > $TMPDIR/C
+		$DECOMMENT $dir2/$fname | diff -bw -- $TMPDIR/C -
+		;;
+	    "	"*)
+		lines=$($DECOMMENT $dir2/$fname | wc -l)
+		echo "Add $dir2/$fname $lines"
+		;;
+	    *)
+		lines=$($DECOMMENT $dir1/$fname | wc -l)
+		echo "Delete $dir1/$fname $lines"
+		;;
+	esac
+    done |
+	tee $TMPDIR/D |
+	parsediff $dir1 $dir2
+
+rm -fr $TMPDIR

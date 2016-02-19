@@ -1,0 +1,50 @@
+#!/bin/sh
+# $Id: testsuite,v 1.7 2001/10/25 23:51:52 bame Exp $
+
+testlist='
+	test000
+	test001
+	test002
+	test003
+	test004
+	test005
+	test006/*.H
+	test007
+	test008
+	test009
+	test010
+	test011
+	test012
+	test013
+	test014
+	test015
+	test016'
+
+testlist=`echo $testlist`
+
+error=0
+
+TEST1()
+{
+    typeset f
+    f=$1
+    shift
+    ./pmccabe -vt $* > $f.out 2>&1
+    ./pmccabe -vnt $* >> $f.out 2>&1
+    if [ -f $f.ref -a -z "$REFERENCE" ]
+    then
+	cmp $f.ref $f.out || error=2
+    else
+	echo "Creating new REFERENCE file $f.ref"
+	mv $f.out $f.ref
+    fi
+}
+
+TEST1 testlist $testlist
+
+for n in $testlist
+do
+    TEST1 $n $n
+done
+
+exit $error

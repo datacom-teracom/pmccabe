@@ -1,0 +1,23 @@
+
+class T1
+{
+    int i;
+    operator long();
+    class /* unnamed */
+    {
+	int member(int a)
+	{
+	    return a;
+	};
+    };
+    class T11
+    {
+	class T12
+	{
+	    int member(int a, int b)
+	    {
+		return a = b;
+	    };
+	}
+    }
+};

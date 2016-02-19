@@ -1,0 +1,64 @@
+
+
+#include <Expr.h>
+#include <assert.h>
+
+Add::Add(Expr *e1, Expr *e2)
+{
+	_result.TypePtr(e1->eval_type());
+	_left = e1;
+	_right = e2;
+}
+
+Add::~Add()
+{
+	delete _left;
+	delete _right;
+}
+
+void Add::print(ostream &o) const
+{
+	PrintBinaryExpression(o,*_left,"+",*_right);
+}
+
+const TypedValue &Add::eval(ValueStore &t)
+{
+	const TypedValue &left = _left->eval(t);
+	const TypedValue &right = _right->eval(t);
+
+	if(!left.HasValue() || !right.HasValue())
+	{
+		_result.ResetValue();
+		return _result;
+	}
+	
+	switch(left.Type())
+	{
+		case TypeInt:
+		case TypeTime:
+			_result = (int)left + (int)right;
+			break;
+		case TypeFloat:
+			_result = (float)left + (float)right;
+			break;
+		case TypeString:
+			{
+				Str s=(const char *)left;
+				s += (const char *)right;
+				_result = strdup(s);
+			}
+			break;
+		case TypeDate:
+			_result = (time_t)left + (time_t)right;
+			break;
+		default:
+			_result.ResetValue();
+	}
+	return _result;
+}
+
+Boolean Add::modified_attributes(ConstCharPtrArray *arr, Boolean /*in_lvalue*/)
+{
+	return _left->modified_attributes(arr,FALSE) +  _right->modified_attributes(arr,FALSE);
+}
+

@@ -1,0 +1,14 @@
+Modified McCabe Cyclomatic Complexity
+|   Traditional McCabe Cyclomatic Complexity
+|       |    # Statements in function
+|       |        |   First line of function
+|       |        |       |   # lines in function
+|       |        |       |       |  filename(definition line number):function
+|       |        |       |       |           |
+1	1	1	13	1	test009(13): function1/class1::amember/class2::bmember
+2	2	4	9	10	test009(9): function1/class1::amember
+1	1	2	4	20	test009(5): function1
+4	4	9	n/a	23	Total
+   CSL PCT  NCSL PCT  TOTAL  FILENAME
+     3  13    20  87     23  test009
+     3  13    20  87     23  (total files: 1)

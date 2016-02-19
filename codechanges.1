@@ -1,0 +1,71 @@
+.TH "codechanges" 1 12Feb2003 HP
+.SH NAME
+codechanges \- computes the amount of code changes between two code trees or single files
+.SH SYNOPSIS
+.B codechanges [-n] old-directory new-directory
+.P
+.B codechanges [-n] old-file new-file
+
+.SH DESCRIPTION
+.I codechanges
+recursively compares the two named directories (or files) calculating
+new/deleted/changed lines, not including comments or blank lines, in
+files which appear to be source files (C, C++, shell, and Makefiles).
+To include comments and blank lines, use the
+.B -n
+option.
+
+.SH APPLICATIONS
+.I codechanges
+is purpose designed to measure the amount of code change between
+milestones in a project's life.
+The following output is from two stages, plus some artificial test
+cases, in the
+.I pmccabe
+code stream:
+
+.nf
+NEW	DELETED	CHANGED	Old File, New File
+11	19	4	old.pmccabe/./Makefile pmccabe/./Makefile
+214	10	39	old.pmccabe/./cparse.c pmccabe/./cparse.c
+463	0	0	NEWFILE pmccabe/./decomment.c
+147	4	39	old.pmccabe/./dmain.c pmccabe/./dmain.c
+10	0	0	NEWFILE pmccabe/./dmain.h
+407	0	0	NEWFILE pmccabe/./getopt.c
+48	0	0	NEWFILE pmccabe/./getopt.h
+9	18	12	old.pmccabe/./gettoken.c pmccabe/./gettoken.c
+18	18	15	old.pmccabe/./io.c pmccabe/./io.c
+175	43	20	old.pmccabe/./nmain.c pmccabe/./nmain.c
+194	11	22	old.pmccabe/./pmccabe.c pmccabe/./pmccabe.c
+42	0	20	old.pmccabe/./pmccabe.h pmccabe/./pmccabe.h
+0	1318	0	old.pmccabe/./test/langMode.c DELETED
+24	0	0	NEWFILE pmccabe/./test006/Grapher.H
+620	0	0	NEWFILE pmccabe/./test006/Handler.H
+442	0	0	NEWFILE pmccabe/./test006/NodeArc.H
+764	0	0	NEWFILE pmccabe/./w/parser.C
+95	0	0	NEWFILE pmccabe/./w/tokens.h
+4	0	0	NEWFILE pmccabe/./x.sh
+3687	1441	171	TOTAL
+.fi
+
+.SH DIAGNOSTICS
+There aren't many at this time.
+
+.SH BUGS
+.I codechanges
+thinks it knows what source files are interesting and the user
+may not agree with its choices.  It's a script and should be
+easy to modify.  Ultimately this should probably be configurable.
+.P
+.I codechanges
+uses a program called
+.I decomment
+which guesses how to de-comment a file based on its file name
+and it's not always perfect.
+
+.SH AUTHOR
+Paul Bame
+
+.SH "SEE ALSO"
+.IR pmccabe (1),
+.IR decomment (1)

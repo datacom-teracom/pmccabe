@@ -1,0 +1,24 @@
+CC            = CL -DMSC6
+
+CFLAGS	=	-AS -G2
+LDFLAGS	=	-F 8000
+
+LD	      = CL
+
+MAKEFILE      = Makefile
+
+CFILES	      = cparse.c \
+		dmain.c \
+		gettoken.c \
+		io.c \
+		nmain.c \
+		pmccabe.c
+
+OFILES		= $(CFILES:.c=.obj)
+
+PROGRAM       = pmccabe.exe
+
+all:		$(PROGRAM)
+
+$(PROGRAM):     $(OFILES)
+		$(LD) $(CFLAGS) $(LDFLAGS) $(OFILES) -o $(PROGRAM)

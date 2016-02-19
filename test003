@@ -1,0 +1,24 @@
+
+
+class T1
+{
+    int i;
+    operator long(){return;};
+};
+
+class T2
+{
+    float f;
+    operator long();
+};
+
+T1::operator long()
+{
+    return long(i);
+}
+
+T2::operator long()
+{
+    return long(f);
+}
+

@@ -1,0 +1,16 @@
+Modified McCabe Cyclomatic Complexity
+|   Traditional McCabe Cyclomatic Complexity
+|       |    # Statements in function
+|       |        |   First line of function
+|       |        |       |   # lines in function
+|       |        |       |       |  filename(definition line number):function
+|       |        |       |       |           |
+1	1	3	6	6	test000(6): Add::Add
+1	1	2	13	5	test000(13): Add::~Add
+1	1	1	19	4	test000(19): Add::print
+4	8	17	24	35	test000(24): Add::eval
+1	1	1	60	4	test000(60): Add::modified_attributes
+8	12	29	n/a	64	Total
+   CSL PCT  NCSL PCT  TOTAL  FILENAME
+    10  16    54  84     64  test000
+    10  16    54  84     64  (total files: 1)

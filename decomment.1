@@ -1,0 +1,25 @@
+.TH "decomment" 1 12Feb2003 HP
+.SH NAME
+decomment \- remove comments from C and C++ files
+.SH SYNOPSIS
+.B decomment [file(s)]
+
+.SH DESCRIPTION
+.I decomment
+processes the named files, or standard input if none are named,
+copying their contents to standard output with comments removed.
+Line numbers in the input file(s) and out file(s) are unchanged,
+that is, if \fCmain()\fR occurs on line 40 in the input, it will
+also appear on line 40 in the output despite comment removal.
+.SH APPLICATIONS
+\fIdecomment\fR may be used to remove comments in order to simply
+other programs which process source code.
+.SH DIAGNOSTICS
+No parsing-related diagnostics.
+.SH WARNINGS
+.SH AUTHOR
+Paul Bame
+
+.SH "SEE ALSO"
+.IR pmccabe (1),
+.IR codechanges (1)

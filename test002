@@ -1,0 +1,5 @@
+class1::class2::class3::member (int a) {stuff;}
+
+class1::class2::operator +=(int a) {impl;}
+
+class4::operator +=(int a) {impl;}

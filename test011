@@ -1,0 +1,18 @@
+
+struct foo *
+function1(int a)
+{
+    return 1;
+}
+
+struct foo 
+function2(int a)
+{
+    return 1;
+}
+
+struct foo &
+function3(int a)
+{
+    return 1;
+}
