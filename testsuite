@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 # $Id: testsuite,v 1.7 2001/10/25 23:51:52 bame Exp $
 
 testlist='

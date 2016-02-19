@@ -1,3 +1,8 @@
+# pmccabe
+
+[![Build Status](https://travis-ci.org/witter-datacom/pmccabe.png?branch=master)](https://travis-ci.org/witter-datacom/pmccabe) 
+[![Coverage Status](https://coveralls.io/repos/witter-datacom/pmccabe/badge.png?branch=master)](https://coveralls.io/r/witter-datacom/pmccabe?branch=master)
+
 McCabe-style complexity and line counting for C and C++
 
 Pmccabe calculates McCabe-style cyclomatic complexity for C and C++
