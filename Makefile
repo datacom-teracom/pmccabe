@@ -10,9 +10,7 @@ INCLUDES=config.h dmain.h getopt.h pmccabe.h
 ###############{
 
 # On HP-UX you will have to change this
-INSTALL = install -o root -g root
-
-DESTDIR = 
+INSTALL ?= install -o root -g root
 
 PROGS = codechanges pmccabe decomment vifn
 
