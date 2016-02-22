@@ -1,0 +1,6 @@
+*.o
+*.out
+*.swp
+tags
+decomment
+pmccabe

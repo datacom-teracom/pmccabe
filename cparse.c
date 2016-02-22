@@ -110,6 +110,7 @@ toplevelstatement(stats_t *stats)
 	    functionFirstLine = line;
 	    functionFirstNLine = nLine;
 	}
+
 	switch (c)
 	{
 	case T_CLASS:
@@ -156,6 +157,16 @@ toplevelstatement(stats_t *stats)
 	    /* end of statement */
 	    endofstatement = TRUE;
 	    break;
+	case T_ENUM:
+        c = fancygettoken(buf, stats->type == STATS_CLASS, &line, &nLine);
+        if (c == T_CLASS) {
+    		endofstatement = TRUE;
+            break;
+        }
+        else {
+            ungettoken(c, buf);
+        }
+        break;
 
 	default:
 	    break;
@@ -428,6 +439,11 @@ possiblefn(stats_t *stats, const char *name, int line1, int defline, int nLine1)
 
 	    switch (c)
 	    {
+        case T_OVERRIDE:
+        case T_FINAL:
+        case T_ATTRIBUTE:
+            c = gettoken(dummy, NULL, NULL);
+            break;
 	    case T_CONST:
 		if (strchr(name, ':') != NULL || stats->type == STATS_CLASS)
 		{

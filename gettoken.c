@@ -129,7 +129,9 @@ identify(const char *ident)
 	break;
     case 'f':
         if (STREQUAL(ident, "for"))
-	    r = T_FOR;
+            r = T_FOR;
+        else if (STREQUAL(ident, "final"))
+            r = T_FINAL;
 	break;
     case 'u':
         if (STREQUAL(ident, "union"))
@@ -137,11 +139,21 @@ identify(const char *ident)
 	break;
     case 'o':
         if (STREQUAL(ident, "operator"))
-	    r = T_OPERATOR;
+            r = T_OPERATOR;
+        else if (STREQUAL(ident, "override"))
+            r = T_OVERRIDE;
 	break;
     case 'n':
         if (STREQUAL(ident, "namespace"))
 	    r = T_NAMESPACE;
+        break;
+    case '_':
+        if (STREQUAL(ident, "__attribute__"))
+	    r = T_ATTRIBUTE;
+	break;
+    case 'e':
+        if (STREQUAL(ident, "enum"))
+	    r = T_ENUM;
 	break;
     }
 

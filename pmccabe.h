@@ -25,6 +25,10 @@
 #define T_OPERATOR (T_WORDS + 11)
 #define T_CONST (T_WORDS + 12)
 #define T_NAMESPACE (T_WORDS + 13)
+#define T_ATTRIBUTE (T_WORDS + 14)
+#define T_FINAL (T_WORDS + 15)
+#define T_OVERRIDE (T_WORDS + 16)
+#define T_ENUM (T_WORDS + 17)
 
 #define STREQUAL(a, b)	(strcmp((a),(b)) == 0)
 #define ZERO(x)	memset(&x, 0, sizeof x)
