@@ -1,0 +1,25 @@
+class Foo {
+public:
+  const struct XXX::XXX_Local_config *Get(void) noexcept; /* this line caused EOF error */
+  const struct XXX::XXX_Local_config *Get(void) const override; /* this line caused EOF error */
+  const struct XXX::XXX_Local_config *Get(void) override; /* this line caused EOF error */
+  const struct XXX::XXX_Local_config *Get(void) final; /* this line caused EOF error */
+
+  enum class {
+      KIDIABA,
+      KABANGU,
+  } aclass;
+
+  enum struct {
+       int kidiaba;
+       int kabangu;
+  } astruct;
+
+  Foo() : configuration(NULL) {}
+
+private:
+  struct XXX::XXX_Local_config* configuration; /* this line caused an infinite loop looking for '{' */
+
+  void after_eof() { return; }
+};
+

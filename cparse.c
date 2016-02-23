@@ -113,6 +113,7 @@ toplevelstatement(stats_t *stats)
 
 	switch (c)
 	{
+    case T_EXTERN:
 	case T_CLASS:
 	case T_STRUCT:
 	case T_UNION:
@@ -159,7 +160,7 @@ toplevelstatement(stats_t *stats)
 	    break;
 	case T_ENUM:
         c = fancygettoken(buf, stats->type == STATS_CLASS, &line, &nLine);
-        if (c == T_CLASS) {
+        if (c == T_CLASS || c == T_STRUCT) {
     		endofstatement = TRUE;
             break;
         }
@@ -442,6 +443,7 @@ possiblefn(stats_t *stats, const char *name, int line1, int defline, int nLine1)
         case T_OVERRIDE:
         case T_FINAL:
         case T_ATTRIBUTE:
+        case T_NOEXCEPT:
             c = gettoken(dummy, NULL, NULL);
             break;
 	    case T_CONST:
@@ -450,6 +452,10 @@ possiblefn(stats_t *stats, const char *name, int line1, int defline, int nLine1)
 		    /* foo::foo() const ^ [;] { */
 		    /* This'll either be a ; for a declaration or a { */
 		    c = gettoken(dummy, NULL, NULL);
+
+            /* handle foo::foo() const override */
+            if (c == T_OVERRIDE)
+    		    c = gettoken(dummy, NULL, NULL);
 		    break;
 		}
 		/* foo() const ^ char *a; { */

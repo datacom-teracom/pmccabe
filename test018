@@ -1,0 +1,23 @@
+/* extern C with indented preprocessor directive  */
+extern "C" {
+    #include "filter-common/filter_actions_c.h"
+}
+
+extern "C" {
+#include "abc.h"
+}
+
+namespace firstNameSpace {
+extern "C" {
+
+int function_inside_first_namespace(int x)
+{
+    x++;
+    if (x == 1)
+        return 1;
+    return 0;
+}
+
+} /* extern "C" */
+} /* namespace FiltersCommon */
+
