@@ -50,7 +50,7 @@ decomment()
 	    switch(c)
 	    {
 	    case '#':
-		if (Lastc == '\n')
+		if (Lastc == '\n' || Lastc == ' ' || Lastc == '\t')
 		{
 		    state = CPP;
 		    if (Cppflag)

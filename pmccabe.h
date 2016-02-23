@@ -29,6 +29,8 @@
 #define T_FINAL (T_WORDS + 15)
 #define T_OVERRIDE (T_WORDS + 16)
 #define T_ENUM (T_WORDS + 17)
+#define T_NOEXCEPT (T_WORDS + 18)
+#define T_EXTERN (T_WORDS + 19)
 
 #define STREQUAL(a, b)	(strcmp((a),(b)) == 0)
 #define ZERO(x)	memset(&x, 0, sizeof x)

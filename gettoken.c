@@ -145,7 +145,9 @@ identify(const char *ident)
 	break;
     case 'n':
         if (STREQUAL(ident, "namespace"))
-	    r = T_NAMESPACE;
+    	    r = T_NAMESPACE;
+        else if (STREQUAL(ident, "noexcept"))
+            r = T_NOEXCEPT;
         break;
     case '_':
         if (STREQUAL(ident, "__attribute__"))
@@ -154,6 +156,8 @@ identify(const char *ident)
     case 'e':
         if (STREQUAL(ident, "enum"))
 	    r = T_ENUM;
+        else if (STREQUAL(ident, "extern"))
+            r = T_EXTERN;
 	break;
     }
 

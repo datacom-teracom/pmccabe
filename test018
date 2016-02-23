@@ -1,0 +1,21 @@
+
+/* extern block with indented preprocessor directive */
+extern "C" {
+    #include "abc.h"
+}
+
+extern "C" {
+#include "abc.h"
+}
+
+extern "C" {
+
+    int myFunc(int x)
+    {
+        x++;
+        if (x == 1)
+           return 1;
+        return 0;
+    }
+}
+
