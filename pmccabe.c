@@ -20,7 +20,7 @@ extern int optind;
 #endif
 
 static char _RcsVersion[] = "@(#)REV: $Header: /gjd/tools/pmccabe/pmccabe.c 1.23 2001/01/26 23:00:34 bame Exp $";
-static const char _Version[] = "@(#) pmccabe 2.6.3";
+static const char _Version[] = "@(#) pmccabe 2.61";
 
 int Cyco = 0;
 int Softbuild = 0;
