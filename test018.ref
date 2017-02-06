@@ -5,8 +5,8 @@ Modified McCabe Cyclomatic Complexity
 |       |        |       |   # lines in function
 |       |        |       |       |  filename(definition line number):function
 |       |        |       |       |           |
-2	2	4	13	7	test018(13): STRINGLITERAL::myFunc
-2	2	4	n/a	21	Total
+2	2	4	13	7	test018(13): unnamed::myFunc
+2	2	4	n/a	25	Total
    CSL PCT  NCSL PCT  TOTAL  FILENAME
-     6  29    15  71     21  test018
-     6  29    15  71     21  (total files: 1)
+     7  28    18  72     25  test018
+     7  28    18  72     25  (total files: 1)

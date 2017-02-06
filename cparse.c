@@ -114,6 +114,19 @@ toplevelstatement(stats_t *stats)
 	switch (c)
 	{
     case T_EXTERN:
+        c = fancygettoken(buf, stats->type == STATS_CLASS, &line, &nLine);
+        if (strcmp("STRINGLITERAL", buf) != 0) {
+            ungettoken(c, buf);
+            break;
+        }
+
+	    if (maybeclass())
+	    {
+		stats->nsemicolons--;
+		endofstatement = TRUE;
+	    }
+
+        break;
 	case T_CLASS:
 	case T_STRUCT:
 	case T_UNION:
